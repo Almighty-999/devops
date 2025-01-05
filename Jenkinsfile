@@ -50,7 +50,7 @@ pipeline {
                         curl -X POST \
                         https://api.telegram.org/bot${botToken}/sendMessage \
                         -d chat_id=${chatId} \
-                        -d text="Сборка успешно завершена! 🟢\\nАртефакты сохранены в Jenkins.\\nСборщик: ${env.BUILD_USER ?: 'Jenkins'}."
+                        -d text="Сборка успешно завершена! 🟢\\nАртефакты сохраненыв Jenkins.\\nСборщик: ${env.BUILD_USER ?: 'Jenkins'}."
                         """
                     }  
                 }  
