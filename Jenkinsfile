@@ -40,6 +40,21 @@ pipeline {
                 archiveArtifacts(artifacts: 'backend/target/sausage-store-0.0.1-SNAPSHOT.jar')
                 archiveArtifacts(artifacts: 'frontend/dist/frontend/*')
             }
+             post {
+                success {
+                    script {
+                        def chatId = "398663910" // Укажите chat_id Telegram-канала
+                        def botToken = "7642134915:AAFUUwcZ-GW7d0WBAJx7qxKqCjiRM6NrEpQ" // Укажите токен вашего Telegram-бота
+
+                        sh """
+                        curl -X POST \
+                        https://api.telegram.org/bot${botToken}/sendMessage \
+                        -d chat_id=${chatId} \
+                        -d text="Сборка успешно завершена! 🟢\\nАртефакты сохранены в Jenkins.\\nСборщик: ${env.BUILD_USER ?: 'Jenkins'}."
+                        """
+                    }  
+                }  
+            }
         }
     }
 } 
