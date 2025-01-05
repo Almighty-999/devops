@@ -3,7 +3,7 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - release-0.0.1
+      - main
     paths:
       - 'backend/**'
       - 'frontend/**'
