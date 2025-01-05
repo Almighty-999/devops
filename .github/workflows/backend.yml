@@ -1,10 +1,8 @@
 name: Backend Pipeline
 
 on:
-    workflow_call:
-    push:
-        paths:
-            - 'backend/**'
+    workflow_call: {}
+   
 
 jobs:
   build-backend:

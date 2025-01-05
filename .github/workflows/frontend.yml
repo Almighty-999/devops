@@ -1,10 +1,8 @@
 name: Backend Build & Notify
 
 on:
-    workflow_call:
-    push:
-        paths:
-            - 'frontend/**'
+    workflow_call: {}
+    
 
 jobs:
   build-frontend:
