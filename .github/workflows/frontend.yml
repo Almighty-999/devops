@@ -1,6 +1,7 @@
 name: Backend Build & Notify
 
 on:
+  workflow_dispatch: # Позволяет запуск вручную     
   push:
     paths:
       - 'backend/**'  # Триггер на изменения в директории backend

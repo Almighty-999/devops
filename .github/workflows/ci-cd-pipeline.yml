@@ -1,6 +1,7 @@
 name: CI/CD Pipeline
 
 on:
+  workflow_dispatch: # Позволяет запуск вручную     
   push:
     branches:
       - main
