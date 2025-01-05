@@ -1,0 +1,33 @@
+name: Backend Build & Notify
+
+on:
+  push:
+    paths:
+      - 'backend/**'  # Триггер на изменения в директории backend
+    branches:
+      - release-0.0.1
+
+jobs:
+  build-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 17 for backend
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+
+      - name: Build backend with Maven
+        run: |
+          cd backend
+          mvn clean package
+
+      - name: Send Telegram notification
+        if: github.event.head_commit.message == 'send notification'
+        run: |
+          curl -X POST \
+          -H 'Content-Type: application/json' \
+          -d '{"chat_id": "-1002405712257", "text": "Backend Build successful! JAR file: <URL_TO_YOUR_JAR_FILE>"}' \
+          https://api.telegram.org/bot7642134915:AAFUUwcZ-GW7d0WBAJx7qxKqCjiRM6NrEpQ/sendMessage

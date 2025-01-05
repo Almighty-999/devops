@@ -1,0 +1,53 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - release-0.0.1
+    paths:
+      - 'backend/**'
+      - 'frontend/**'
+
+jobs:
+  build:
+    name: Build Backend & Frontend
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 17 for backend
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+      
+      - name: Build backend with Maven
+        run: |
+          cd backend
+          mvn clean package
+
+      - name: Set up Node.js for frontend
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Install dependencies and build frontend
+        run: |
+          cd frontend
+          npm install
+          npm run build
+
+      - name: Save artifacts (backend JAR and frontend build)
+        uses: actions/upload-artifact@v2
+        with:
+          name: backend-artifact
+          path: backend/target/*.jar
+
+      - name: Send Telegram notification (optional)
+        if: github.event.head_commit.message == 'send notification'
+        run: |
+          curl -X POST \
+          -H 'Content-Type: application/json' \
+          -d '{"chat_id": "-1002405712257", "text": "Build successful! JAR file: <URL_TO_YOUR_JAR_FILE>"}' \
+          https://api.telegram.org/bot7642134915:AAFUUwcZ-GW7d0WBAJx7qxKqCjiRM6NrEpQ/sendMessage
