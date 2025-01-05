@@ -1,6 +1,7 @@
 name: Backend Build & Notify
 
 on:
+    workflow_call:
     push:
         paths:
             - 'frontend/**'
