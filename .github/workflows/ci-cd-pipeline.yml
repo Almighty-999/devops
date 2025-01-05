@@ -50,5 +50,5 @@ jobs:
         run: |
           curl -X POST \
           -H 'Content-Type: application/json' \
-          -d '{"chat_id": "-1002405712257", "text": "Build successful! JAR file: <URL_TO_YOUR_JAR_FILE>"}' \
+          -d '{"chat_id": "-1002405712257", "text": "Build successful!"}' \
           https://api.telegram.org/bot7642134915:AAFUUwcZ-GW7d0WBAJx7qxKqCjiRM6NrEpQ/sendMessage
