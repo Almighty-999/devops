@@ -1,0 +1,14 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - release-0.0.1
+    paths:
+      - 'backend/**'
+      - 'frontend/**'
+
+jobs:
+  include:
+    - backend/.github-ci.yml
+    - frontend/.github-ci.yml
