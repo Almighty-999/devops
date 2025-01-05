@@ -1,15 +1,11 @@
-name: Backend Build & Notify
+name: Backend Pipeline
 
 on:
-  workflow_dispatch: # Позволяет запуск вручную      
-  push:
-    paths:
-      - 'backend/**'  # Триггер на изменения в директории backend
-    branches:
-      - main
+    workflow_call: {}
 
 jobs:
   build-backend:
+    name: Build backend
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout code
@@ -25,11 +21,26 @@ jobs:
       - name: Build backend with Maven
         run: |
           cd backend
-          mvn clean package
+          mvn package
 
+      - name: Upload JAR Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-artifact
+          path: backend/target/*.jar
+
+  notify-backend:
+    name: Notify Telegram
+    runs-on: ubuntu-latest
+    needs: build-backend      
+    steps:
       - name: Send Telegram notification
         run: |
+          JAR_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts"
           curl -X POST \
           -H 'Content-Type: application/json' \
-          -d '{"chat_id": "-1002405712257", "text": "Backend Build successful!"}' \
+          -d '{
+            "chat_id": "-1002405712257", 
+            "text": "Backend Build successful! Download JAR: '"$JAR_URL"'"
+          }' \
           https://api.telegram.org/bot7642134915:AAFUUwcZ-GW7d0WBAJx7qxKqCjiRM6NrEpQ/sendMessage

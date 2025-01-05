@@ -1,54 +1,15 @@
-name: CI/CD Pipeline
+name: Main Pipeline
 
 on:
-  workflow_dispatch: # Позволяет запуск вручную     
   push:
     branches:
-      - main
-    paths:
-      - 'backend/**'
-      - 'frontend/**'
+       - main
 
 jobs:
-  build:
-    name: Build Backend & Frontend
-    runs-on: ubuntu-24.04
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up JDK 17 for backend
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-      
-      - name: Build backend with Maven
-        run: |
-          cd backend
-          mvn clean package
-
-      - name: Set up Node.js for frontend
-        uses: actions/setup-node@v4
-        with:
-          node-version: '16'
-
-      - name: Install dependencies and build frontend
-        run: |
-          cd frontend
-          npm install
-          npm run build
-
-      - name: Save artifacts (backend JAR and frontend build)
-        uses: actions/upload-artifact@v4
-        with:
-          name: backend-artifact
-          path: backend/target/*.jar
-
-      - name: Send Telegram notification (optional)
-        run: |
-          curl -X POST \
-          -H 'Content-Type: application/json' \
-          -d '{"chat_id": "-1002405712257", "text": "Build successful!"}' \
-          https://api.telegram.org/bot7642134915:AAFUUwcZ-GW7d0WBAJx7qxKqCjiRM6NrEpQ/sendMessage
+  include-backend:
+    name: Include Backend Workflow
+    uses: ./.github/workflows/backend.yml
+  
+  include-frontend:
+    name: Include Frontend Workflow
+    uses: ./.github/workflows/frontend.yml
