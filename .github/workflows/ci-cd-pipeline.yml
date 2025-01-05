@@ -40,7 +40,7 @@ jobs:
           npm run build
 
       - name: Save artifacts (backend JAR and frontend build)
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: backend-artifact
           path: backend/target/*.jar
