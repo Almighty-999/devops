@@ -9,10 +9,10 @@ on:
       - 'frontend/**'
 
 jobs:
-  include-backend:
+  backend:
     name: Include Backend Workflow
     uses: ./.github/workflows/backend.yml
   
-  include-frontend:
+  frontend:
     name: Include Frontend Workflow
     uses: ./.github/workflows/frontend.yml
