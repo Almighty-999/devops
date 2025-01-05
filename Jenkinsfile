@@ -43,7 +43,7 @@ pipeline {
              post {
                 success {
                     script {
-                        def chatId = "398663910" // Укажите chat_id Telegram-канала
+                        def chatId = "-1002405712257" // Укажите chat_id Telegram-канала
                         def botToken = "7642134915:AAFUUwcZ-GW7d0WBAJx7qxKqCjiRM6NrEpQ" // Укажите токен вашего Telegram-бота
 
                         sh """
