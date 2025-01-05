@@ -35,11 +35,11 @@ jobs:
     steps:
       - name: Send Telegram notification
         run: |
-          JAR_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts"
+          ARTIFACT_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts"
           curl -X POST \
           -H 'Content-Type: application/json' \
           -d '{
             "chat_id": "-1002405712257", 
-            "text": "Backend Build successful! Download JAR: '"$JAR_URL"'"
+            "text": "Frontend build successful! Artifacts available: '"$ARTIFACT_URL"'"
           }' \
           https://api.telegram.org/bot7642134915:AAFUUwcZ-GW7d0WBAJx7qxKqCjiRM6NrEpQ/sendMessage

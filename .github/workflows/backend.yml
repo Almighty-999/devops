@@ -31,7 +31,7 @@ jobs:
 
   notify-backend:
     name: Notify Telegram
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: build-backend      
     steps:
       - name: Send Telegram notification
