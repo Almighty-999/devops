@@ -20,6 +20,13 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: Cache Maven dependecies
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven
 
       - name: Build backend with Maven
         run: |
@@ -31,11 +38,43 @@ jobs:
         with:
           name: backend-artifact
           path: backend/target/*.jar
+  test-backend:
+    name: Test Backend (SpotBug)
+    runs-on: ubuntu-24.04
+    needs: build-backend
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up JDK 17 for backend
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Cache Maven dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Run SpotBugs analysis
+        run: |
+          cd backend
+          mvn com.github.spotbugs:spotbugs-maven-plugin:spotbugs
+
+      - name: Upload SpotBugs Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: spotbugs-report
+          path: backend/target/spotbugsXml.xml
 
   notify-backend:
     name: Notify Telegram
     runs-on: ubuntu-24.04
-    needs: build-backend      
+    needs: [build-backend, test-backend]      
     steps:
       - name: Send Telegram notification
         run: |
