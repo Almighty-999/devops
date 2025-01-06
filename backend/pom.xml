@@ -62,8 +62,8 @@
             </plugin>
             <plugin>
             <groupId>com.github.spotbugs</groupId>
-            <artifactId>spring-boot-maven-plugin</artifactId>
-            <version>4.7.3.1</version>
+            <artifactId>spotbugs-boot-maven-plugin</artifactId>
+            <version>4.4.2</version>
             <configuration>
                 <xmlOutput>true</xmlOutput>
                 <outputDirectory>${project.build.directory}</outputDirectory>
