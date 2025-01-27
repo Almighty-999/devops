@@ -1,16 +1,20 @@
-      - name: Generate Maven settings.xml
-        run: |
-          cat <<EOF > $GITHUB_WORKSPACE/.github/settings.xml
-          <?xml version="1.0" encoding="UTF-8"?>
-          <settings xmlns="http://maven.apache.org/SETTINGS/1.1.0"
-                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                    xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.1.0 http://maven.apache.org/xsd/settings-1.1.0.xsd">
-              <servers>
-                  <server>
-                      <id>nexus</id>
-                      <username>${{ secrets.NEXUS_REPO_USER }}</username>
-                      <password>${{ secrets.NEXUS_REPO_PASS }}</password>
-                  </server>
-              </servers>
-          </settings>
-          EOF
+- name: Generate Maven settings.xml
+  run: |
+    cat <<EOF > $GITHUB_WORKSPACE/.github/settings.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.1.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.1.0 http://maven.apache.org/xsd/settings-1.1.0.xsd">
+  <servers>
+      <server>
+          <id>nexus</id>
+          <username>${{ secrets.NEXUS_REPO_USER }}</username>
+          <password>${{ secrets.NEXUS_REPO_PASS }}</password>
+      </server>
+  </servers>
+</settings>
+EOF
+
+- name: Check contents of settings.xml
+  run: |
+    cat $GITHUB_WORKSPACE/.github/settings.xml
