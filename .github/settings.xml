@@ -1,15 +1,15 @@
 - name: Generate Maven settings.xml
   run: |
-    echo '<?xml version="1.0" encoding="UTF-8"?>' > $GITHUB_WORKSPACE/.github/settings.xml
-    echo '<settings xmlns="http://maven.apache.org/SETTINGS/1.1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.1.0 http://maven.apache.org/xsd/settings-1.1.0.xsd">' >> $GITHUB_WORKSPACE/.github/settings.xml
-    echo '  <servers>' >> $GITHUB_WORKSPACE/.github/settings.xml
-    echo '    <server>' >> $GITHUB_WORKSPACE/.github/settings.xml
-    echo '      <id>nexus</id>' >> $GITHUB_WORKSPACE/.github/settings.xml
-    echo '      <username>${{ secrets.NEXUS_REPO_USER }}</username>' >> $GITHUB_WORKSPACE/.github/settings.xml
-    echo '      <password>${{ secrets.NEXUS_REPO_PASS }}</password>' >> $GITHUB_WORKSPACE/.github/settings.xml
-    echo '    </server>' >> $GITHUB_WORKSPACE/.github/settings.xml
-    echo '  </servers>' >> $GITHUB_WORKSPACE/.github/settings.xml
-    echo '</settings>' >> $GITHUB_WORKSPACE/.github/settings.xml
+    echo -n '<?xml version="1.0" encoding="UTF-8"?>' > $GITHUB_WORKSPACE/.github/settings.xml
+    echo -n '<settings xmlns="http://maven.apache.org/SETTINGS/1.1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.1.0 http://maven.apache.org/xsd/settings-1.1.0.xsd">' >> $GITHUB_WORKSPACE/.github/settings.xml
+    echo -n '  <servers>' >> $GITHUB_WORKSPACE/.github/settings.xml
+    echo -n '    <server>' >> $GITHUB_WORKSPACE/.github/settings.xml
+    echo -n '      <id>nexus</id>' >> $GITHUB_WORKSPACE/.github/settings.xml
+    echo -n '      <username>${{ secrets.NEXUS_REPO_USER }}</username>' >> $GITHUB_WORKSPACE/.github/settings.xml
+    echo -n '      <password>${{ secrets.NEXUS_REPO_PASS }}</password>' >> $GITHUB_WORKSPACE/.github/settings.xml
+    echo -n '    </server>' >> $GITHUB_WORKSPACE/.github/settings.xml
+    echo -n '  </servers>' >> $GITHUB_WORKSPACE/.github/settings.xml
+    echo -n '</settings>' >> $GITHUB_WORKSPACE/.github/settings.xml
 
 - name: Check contents of settings.xml
   run: |
