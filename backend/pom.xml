@@ -17,7 +17,10 @@
         <java.version>16</java.version>
         <sonar.projectKey>test_manual</sonar.projectKey>
         <sonar.qualitygate.wait>true</sonar.qualitygate.wait>
+        <nexus.repo.url>${env.NEXUS_REPO_URL}</nexus.repo.url>
+        <nexus.repo.backend.name>${env.NEXUS_REPO_BACKEND_NAME}</nexus.repo.backend.name>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -61,23 +64,36 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
             <plugin>
-            <groupId>com.github.spotbugs</groupId>
-            <artifactId>spotbugs-boot-maven-plugin</artifactId>
-            <version>4.4.2</version>
-            <configuration>
-                <xmlOutput>true</xmlOutput>
-                <outputDirectory>${project.build.directory}</outputDirectory>
-            </configuration>
-            <executions>
-                <execution>
-                    <phase>verify</phase>
-                    <goals>
-                        <goal>spotbugs</goal>
-                    </goals>
-                </execution>
-            </executions>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-boot-maven-plugin</artifactId>
+                <version>4.4.2</version>
+                <configuration>
+                    <xmlOutput>true</xmlOutput>
+                    <outputDirectory>${project.build.directory}</outputDirectory>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>spotbugs</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>3.0.0-M1</version>
             </plugin>
         </plugins>
     </build>
+
+    <distributionManagement>
+        <repository>
+            <id>sausage-store</id>
+            <name>sausage-store</name>
+            <url>${nexus.repo.url}/repository/${nexus.repo.backend.name}</url>
+        </repository>
+    </distributionManagement>
 
 </project>

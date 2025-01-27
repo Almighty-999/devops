@@ -26,6 +26,23 @@ jobs:
           npm install
           npm run build
 
+      - name: Upload Frontend Artifact to Nexus
+        run: |
+          curl -u ${{ secrets.NEXUS_REPO_USER }}:${{ secrets.NEXUS_REPO_PASS }} \
+          -X PUT "${{ secrets.NEXUS_REPO_URL }}/repository/${{ secrets.NEXUS_REPO_FRONTEND_NAME }}/frontend.zip" \
+          --upload-file frontend/dist/frontend.zip
+  
+      - name: Notify Frontend Build
+        run: |
+            ARTIFACT_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts"
+            curl -X POST \
+            -H 'Content-Type: application/json' \
+            -d '{
+              "chat_id": "-1002405712257", 
+              "text": "Frontend build successful! Artifacts available: '"$ARTIFACT_URL"'"
+            }' \
+            https://api.telegram.org/bot7642134915:AAFUUwcZ-GW7d0WBAJx7qxKqCjiRM6NrEpQ/sendMessage
+
       - name: Upload Frontend Artifact
         uses: actions/upload-artifact@v4
         with:

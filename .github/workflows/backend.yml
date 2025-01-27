@@ -59,6 +59,24 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
+      
+      - name: Build and Deploy backend to Nexus
+        run: |
+          cd backend
+          mvn deploy -DskipTests \
+            -Dmaven.repo.local=${{ github.workspace }}/.m2/repository \
+            -s ${{ github.workspace }}/.github/settings.xml
+        env:
+          NEXUS_REPO_URL: ${{ secrets.NEXUS_REPO_URL }}
+          NEXUS_REPO_USER: ${{ secrets.NEXUS_REPO_USER }}
+          NEXUS_REPO_PASS: ${{ secrets.NEXUS_REPO_PASS }}
+          NEXUS_REPO_BACKEND_NAME: ${{ secrets.NEXUS_REPO_BACKEND_NAME }}
+
+      - name: Upload JAR Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-artifact
+          path: backend/target/*.jar
 
       - name: Run SpotBugs analysis
         run: |
