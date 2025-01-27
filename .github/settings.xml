@@ -11,7 +11,13 @@
     echo '  </servers>' >> $GITHUB_WORKSPACE/.github/settings.xml
     echo '</settings>' >> $GITHUB_WORKSPACE/.github/settings.xml
 
-
 - name: Check contents of settings.xml
   run: |
     cat $GITHUB_WORKSPACE/.github/settings.xml
+    echo "End of settings.xml content"
+
+- name: Run Maven deploy
+  run: |
+    mvn deploy -DskipTests \
+    -Dmaven.repo.local=/home/runner/work/devops/devops/.m2/repository \
+    -s $GITHUB_WORKSPACE/.github/settings.xml
